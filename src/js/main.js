@@ -1,21 +1,11 @@
 import slider from "./modules/slider";
 import filter from "./modules/filter";
+import burger from "./modules/burger";
 
 'use strict'
 slider();
 filter();
+burger();
 
 
 
-
-// ------------------Slider------------------
-
-
-
-
-
-
-// document.querySelector('.categories__filter-btn').addEventListener('click', function() {
-//   document.querySelector('.categories__filter-btn').classList.remove('categories__filter-btn--active')
-//   document.querySelector(this).classList.add('categories__filter-btn--active')();
-// });

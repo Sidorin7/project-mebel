@@ -30,7 +30,7 @@ const filter = () => {
 
   // SEARCH FILTER
   const search = document.getElementById("search");
-  const productName = document.querySelectorAll(".categories__link-content h3");
+  const productName = document.querySelectorAll(".categories__link-title");
 
   // A BETTER WAY TO FILTER THROUGH THE PRODUCTS
   search.addEventListener("keyup", filterProducts);
@@ -41,7 +41,7 @@ const filter = () => {
     productName.forEach(function (product) {
       const item = product.firstChild.textContent;
       if (item.toLowerCase().indexOf(text) != -1) {
-        product.parentElement.parentElement.style.display = "block";
+        product.parentElement.parentElement.style.display = "grid";
         product.classList.add('animated', 'fadeIn');
 
       } else {
@@ -64,6 +64,7 @@ const filter = () => {
           target.classList.add("categories__filter-btn--active");
         }
       });
+
 };
 
 export default filter;

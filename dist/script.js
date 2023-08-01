@@ -2,6 +2,39 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/burger.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/burger.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const burger = () => {
+  let menuBtn = document.getElementById("burger");
+  let navigation = document.querySelector('.header__top');
+  let overlay = document.querySelector('.overlay');
+  let header = document.querySelector('.header__nav-link');
+  let menuOpen = false;
+  menuBtn.addEventListener("click", () => {
+    if (!menuOpen) {
+      navigation.classList.toggle("header__top--open");
+      overlay.classList.toggle('overlay--show');
+    }
+  });
+  document.querySelector(".burger, .overlay, .header__top a").addEventListener('click', function (e) {
+    e.preventDefault();
+    overlay.classList.toggle('overlay--show');
+    navigation.classList.toggle("header__top--open");
+    header.classList.toggle("header__top--open");
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (burger);
+
+/***/ }),
+
 /***/ "./src/js/modules/filter.js":
 /*!**********************************!*\
   !*** ./src/js/modules/filter.js ***!
@@ -40,7 +73,7 @@ const filter = () => {
 
   // SEARCH FILTER
   const search = document.getElementById("search");
-  const productName = document.querySelectorAll(".categories__link-content h3");
+  const productName = document.querySelectorAll(".categories__link-title");
 
   // A BETTER WAY TO FILTER THROUGH THE PRODUCTS
   search.addEventListener("keyup", filterProducts);
@@ -50,7 +83,7 @@ const filter = () => {
     productName.forEach(function (product) {
       const item = product.firstChild.textContent;
       if (item.toLowerCase().indexOf(text) != -1) {
-        product.parentElement.parentElement.style.display = "block";
+        product.parentElement.parentElement.style.display = "grid";
         product.classList.add('animated', 'fadeIn');
       } else {
         product.parentElement.parentElement.style.display = "none";
@@ -173,18 +206,14 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
+/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+
 
 
 'use strict';
 (0,_modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"])();
 (0,_modules_filter__WEBPACK_IMPORTED_MODULE_1__["default"])();
-
-// ------------------Slider------------------
-
-// document.querySelector('.categories__filter-btn').addEventListener('click', function() {
-//   document.querySelector('.categories__filter-btn').classList.remove('categories__filter-btn--active')
-//   document.querySelector(this).classList.add('categories__filter-btn--active')();
-// });
+(0,_modules_burger__WEBPACK_IMPORTED_MODULE_2__["default"])();
 })();
 
 /******/ })()
