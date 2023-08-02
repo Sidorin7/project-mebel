@@ -2,6 +2,63 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/PlayVideo.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/PlayVideo.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ VideoPlayer)
+/* harmony export */ });
+class VideoPlayer {
+  constructor(triggers, overlay) {
+    this.btns = document.querySelectorAll(triggers);
+    this.overlay = document.querySelector(overlay);
+    this.close = this.overlay.querySelector('.close');
+  }
+  bindTriggers() {
+    this.btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (document.querySelector('iframe#frame')) {
+          this.overlay.style.display = 'flex';
+        } else {
+          const path = btn.getAttribute('data-url');
+          this.createPlayer(path);
+        }
+      });
+    });
+  }
+  bindCloseBtn() {
+    if (this.close) {
+      this.close.addEventListener('click', () => {
+        this.overlay.style.display = 'none';
+        this.player.stopVideo();
+      });
+    }
+  }
+  createPlayer(url) {
+    this.player = new YT.Player('frame', {
+      height: '100%',
+      width: '100%',
+      videoId: `${url}`
+    });
+    console.log(this.player);
+    this.overlay.style.display = 'flex';
+  }
+  init() {
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    this.bindTriggers();
+    this.bindCloseBtn();
+  }
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/burger.js":
 /*!**********************************!*\
   !*** ./src/js/modules/burger.js ***!
@@ -102,6 +159,113 @@ const filter = () => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (filter);
+
+/***/ }),
+
+/***/ "./src/js/modules/modals.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/modals.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const modals = () => {
+  let btnPressed = false;
+  function bindModal(triggerSelector, modalSelector, closeSelector) {
+    let destroy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    const trigger = document.querySelectorAll(triggerSelector),
+      modal = document.querySelector(modalSelector),
+      close = document.querySelector(closeSelector),
+      windows = document.querySelectorAll("[data-modal]"),
+      scroll = calcScroll();
+    trigger.forEach(item => {
+      item.addEventListener("click", e => {
+        if (e.target) {
+          e.preventDefault();
+        }
+        btnPressed = true;
+
+        // if (destroy) {
+        //   item.remove();
+        // }
+
+        windows.forEach(item => {
+          item.style.display = "none";
+          item.classList.add("animated", "fadeIn");
+        });
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        document.body.style.marginRight = `${scroll}px`;
+      });
+    });
+    close.addEventListener("click", () => {
+      windows.forEach(item => {
+        item.style.display = "none";
+      });
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+      document.body.style.marginRight = `0px`;
+    });
+    modal.addEventListener("click", e => {
+      if (e.target === modal) {
+        windows.forEach(item => {
+          item.style.display = "none";
+        });
+        modal.style.display = "none";
+        document.body.style.overflow = "";
+        document.body.style.marginRight = `0px`;
+      }
+    });
+  }
+  function showModalByTime(selector, time) {
+    setTimeout(function () {
+      let display;
+      document.querySelectorAll("[data-modl]").forEach(item => {
+        if (getComputedStyle(item).display !== "none") {
+          // если модальное окно показано пользоваетелю
+          display = "block";
+        }
+      });
+      if (!display) {
+        // если в данный момент не одно модальное окно не показывает, то
+        document.querySelector(selector).style.display = "block"; // показываем то, модальное окно, которое нам нужно
+        document.body.style.overflow = "hidden"; // заморозка скролла
+        let scroll = calcScroll();
+        document.body.style.marginRight = `${scroll}px`;
+      }
+    }, time);
+  }
+  function calcScroll() {
+    let div = document.createElement("div");
+    div.style.width = "50px";
+    div.style.height = "50px";
+    div.style.overflowY = "scroll";
+    div.style.visibility = "hidden";
+    document.body.appendChild(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+    return scrollWidth;
+  }
+  function openByScroll(selector) {
+    window.addEventListener("scroll", () => {
+      let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight); // для древних браузеров
+
+      if (!btnPressed && window.scrollY + document.documentElement.clientHeight >= scrollHeight) {
+        document.querySelector(selector).click();
+      }
+    });
+  }
+  bindModal(".header__nav-btn", ".popup-catalog", ".popup-catalog .popup-close");
+  const btnCatalog = document.querySelector('.header__nav-item--catalog');
+  btnCatalog.addEventListener('click', function () {
+    btnCatalog.backgroundColor = 'white';
+    btnCatalog.color = 'black';
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modals);
 
 /***/ }),
 
@@ -207,6 +371,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
 /* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+/* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
+/* harmony import */ var _modules_PlayVideo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/PlayVideo */ "./src/js/modules/PlayVideo.js");
+
+
 
 
 
@@ -214,6 +382,9 @@ __webpack_require__.r(__webpack_exports__);
 (0,_modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"])();
 (0,_modules_filter__WEBPACK_IMPORTED_MODULE_1__["default"])();
 (0,_modules_burger__WEBPACK_IMPORTED_MODULE_2__["default"])();
+(0,_modules_modals__WEBPACK_IMPORTED_MODULE_3__["default"])();
+const player = new _modules_PlayVideo__WEBPACK_IMPORTED_MODULE_4__["default"]('.youtube .play', '.overlay-youtube');
+player.init();
 })();
 
 /******/ })()
