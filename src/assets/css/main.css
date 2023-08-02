@@ -1375,7 +1375,7 @@ li {
 
 /* ---------------------------------------------------- */
 .footer__top-inner {
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   justify-content: flex-start;
 }
 .footer__top-col {
@@ -1472,7 +1472,10 @@ li {
   }
 
   /* ---------------------------------------------------- */
-
+  .footer__top-inner {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
 }
 
 /* ================================== 700 ================================== */
